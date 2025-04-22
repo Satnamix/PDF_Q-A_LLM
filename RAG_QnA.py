@@ -45,7 +45,7 @@ def create_vector_embeddings():
                 temp_file_path = tmp_file.name
             st.session_state.loader = PyPDFLoader(temp_file_path).load()
             st.session_state.embeddings = HuggingFaceEmbeddings(
-                model_name="sentence-transformers/all-MiniLM-L6-v2",
+                model_name="all-MiniLM-L6-v2",
                 model_kwargs={"device": "cpu"}
             )
             st.session_state.text_splitter=RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=200).split_documents(st.session_state.loader)
