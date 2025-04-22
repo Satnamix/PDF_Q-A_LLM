@@ -44,13 +44,10 @@ def create_vector_embeddings():
                 tmp_file.write(uploaded_document.read()) 
                 temp_file_path = tmp_file.name
             st.session_state.loader = PyPDFLoader(temp_file_path).load()
-            try:
-                st.session_state.embeddings = HuggingFaceEmbeddings(
-                    model_name="sentence-transformers/all-MiniLM-L6-v2",
-                    model_kwargs={"device": "cpu"}
-                )
-            except Exception as e:
-                st.error(f"Failed to load embeddings: {str(e)}")
+            st.session_state.embeddings = HuggingFaceEmbeddings(
+                model_name="sentence-transformers/all-MiniLM-L6-v2",
+                model_kwargs={"device": "cpu"}
+            )
             st.session_state.text_splitter=RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=200).split_documents(st.session_state.loader)
             st.session_state.db=FAISS.from_documents(st.session_state.text_splitter,st.session_state.embeddings)
 
