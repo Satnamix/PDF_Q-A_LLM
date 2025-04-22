@@ -4,5 +4,6 @@ langchain-text-splitters
 langchain-groq
 langchain-huggingface
 faiss-cpu
+pypdf
 python-dotenv
 streamlit
