@@ -7,10 +7,11 @@ from langchain_groq import ChatGroq
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_retrieval_chain
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_chroma import Chroma
-import chromadb
+# from langchain_chroma import Chroma
+# import chromadb
+from langchain_community.vectorstores import FAISS
 import streamlit as st
-chromadb.api.client.SharedSystemClient.clear_system_cache()
+# chromadb.api.client.SharedSystemClient.clear_system_cache()
 
 # Set API keys using st.secrets
 os.environ['LANGSMITH_API_KEY'] = st.secrets["credentials"]["LANGSMITH_API_KEY"]
@@ -45,7 +46,7 @@ def create_vector_embeddings():
             st.session_state.loader = PyPDFLoader(temp_file_path).load()
             st.session_state.embeddings=HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
             st.session_state.text_splitter=RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=200).split_documents(st.session_state.loader)
-            st.session_state.db=Chroma.from_documents(st.session_state.text_splitter,st.session_state.embeddings)
+            st.session_state.db=FAISS.from_documents(st.session_state.text_splitter,st.session_state.embeddings)
 
 
 
